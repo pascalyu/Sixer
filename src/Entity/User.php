@@ -8,17 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
-use DateTime;
-use Symfony\Component\Validator\Constraints\Date;
-use Updatable;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ApiResource(
  *      itemOperations = {
- *          "get"= {
- *              "normalization_context"={"groups"={"get"}}
- *          },
+ *          "get",
  *          "put"={
  *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user "
  *          }
@@ -32,8 +27,6 @@ use Updatable;
  */
 class User implements UserInterface
 {
-
-    use Updatable;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -77,7 +70,15 @@ class User implements UserInterface
      */
     private $showed;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
     /**
      * @ORM\OneToOne(targetEntity=Profil::class, mappedBy="user", cascade={"persist", "remove"})
@@ -92,12 +93,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->offers = new ArrayCollection();
-        $this->enabled = false;
-        $this->showed = true;
-
-        $this->setCreatedAt(new DateTime());
-        
-        $this->setUpdatedAt(new DateTime());
     }
 
     public function getId(): ?int
@@ -226,6 +221,29 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
 
     public function getProfil(): ?Profil
     {

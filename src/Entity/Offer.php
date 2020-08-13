@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=OfferRepository::class)
@@ -21,7 +22,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *      }
  * )
  */
-class Offer
+class Offer implements UserInterface
 {
     /**
      * @ORM\Id()

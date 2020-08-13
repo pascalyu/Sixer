@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProfilRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
+use UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
@@ -12,16 +13,18 @@ use ApiPlatform\Core\Annotation\ApiResource;
  *      itemOperations = {
  *          "get",
  *          "put"={
- *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user "
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object.getUser()  == user "
  *          }
  *      },
  *      collectionOperations = {
  *          "get",
- *          "post"
+ *          "post"={
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY')  "
+ *          }
  *      }
  * )
  */
-class Profil
+class Profil implements UserInterface
 {
     /**
      * @ORM\Id()
