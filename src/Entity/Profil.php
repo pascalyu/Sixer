@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\ProfilRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
-use UserInterface;
+use OwnUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
@@ -24,7 +24,7 @@ use UserInterface;
  *      }
  * )
  */
-class Profil implements UserInterface
+class Profil implements OwnUserInterface
 {
     /**
      * @ORM\Id()

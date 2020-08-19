@@ -4,12 +4,13 @@ namespace App\EventSubscriber;
 
 use ApiPlatform\Core\EventListener\EventPriorities;
 use App\Entity\AuthorInterface;
+use OwnUserInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use UserInterface;
+
 
 /*
  * Used to add author from token when post article or comment, because they implement both 
@@ -31,7 +32,7 @@ class SetUserSubscriber implements EventSubscriberInterface
         $entity = $event->getControllerResult();
         $method = $event->getRequest()->getMethod();
 
-        if (!$entity instanceof UserInterface  || !in_array($method, [Request::METHOD_POST])) {
+        if (!$entity instanceof OwnUserInterface  || !in_array($method, [Request::METHOD_POST])) {
             return;
         }
 

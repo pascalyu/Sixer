@@ -2,7 +2,7 @@
 
 use App\Entity\User;
 
-interface UserInterface
+interface OwnUserInterface
 {
 
     public function setUser(?User $user): self;
