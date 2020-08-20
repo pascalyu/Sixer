@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\OfferRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
-use OwnUserInterface;
+use App\Entity\Interfaces\OwnUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=OfferRepository::class)
@@ -13,7 +13,7 @@ use OwnUserInterface;
  *      itemOperations = {
  *          "get",
  *          "put"={
- *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user "
+ *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object.getUser() == user "
  *          }
  *      },
  *      collectionOperations = {

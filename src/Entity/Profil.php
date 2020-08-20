@@ -5,7 +5,7 @@ namespace App\Entity;
 use App\Repository\ProfilRepository;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
-use OwnUserInterface;
+use App\Entity\Interfaces\OwnUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
