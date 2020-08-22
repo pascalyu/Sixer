@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
+use DateTime;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -93,6 +95,10 @@ class User implements UserInterface
     public function __construct()
     {
         $this->offers = new ArrayCollection();
+        $this->enabled = true;
+        $this->showed = true;
+        $this->updatedAt = new DateTime();
+        $this->createdAt = new DateTime();
     }
 
     public function getId(): ?int
