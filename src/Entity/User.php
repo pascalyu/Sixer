@@ -9,6 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 use Symfony\Component\Validator\Constraints\Date;
 
 /**
@@ -51,6 +54,17 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * *@var string The hashed password
+     * @Groups({"put","post"})
+     * @Assert\Expression(
+     *  "this.getPassword() === this.getRetypedPassword()", 
+     *  message="not matching"
+     * )
+     */
+    private $retypedPassword;
+
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -158,6 +172,22 @@ class User implements UserInterface
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+
+    /**
+     * @see UserInterface
+     */
+    public function getRetypedPassword(): string
+    {
+        return (string) $this->retypedPassword;
+    }
+
+    public function setRetypedPassword(string $retypedPassword): self
+    {
+        $this->retypedPassword = $retypedPassword;
 
         return $this;
     }
