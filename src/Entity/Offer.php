@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Interfaces\OwnUserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * @ORM\Entity(repositoryClass=OfferRepository::class)
  * @ApiResource(
@@ -21,8 +23,13 @@ use App\Entity\Interfaces\OwnUserInterface;
  *          "post"
  *      }
  * )
+ *  @Assert\Expression(
+ *      
+ *     "(this.getPrice() != '0') or (this.getTitle() in ['s','ok']) ",
+ *     message="i la valeur est 0 alors ca doi être s ou ok"
+ * )
  */
-class Offer implements OwnUserInterface    
+class Offer implements OwnUserInterface
 {
     /**
      * @ORM\Id()
@@ -43,11 +50,17 @@ class Offer implements OwnUserInterface
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * 
+     *
      */
     private $title;
 
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     *  @Assert\NotBlank(
+     *      
+     * )
+  
      */
     private $price;
 

@@ -11,7 +11,7 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use DateTime;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use App\Controller\EditProfilAction;
 use Symfony\Component\Validator\Constraints\Date;
 
 /**
@@ -21,11 +21,20 @@ use Symfony\Component\Validator\Constraints\Date;
  *          "get",
  *          "put"={
  *              "access_control"="is_granted('IS_AUTHENTICATED_FULLY') and object == user "
- *          }
+ *          },
+ *         "edit_profil": {
+ *             "method": "PATCH",
+ *             "path": "/{id}/truc",
+ *             "controller": EditProfilAction::class,
+ *             "denormalization_context"={"groups"={"write"}} ,
+ *             "normalization_context"={"groups"={"read"}}
+ *             
+ *         }
  *      },
  *      collectionOperations = {
  *          "get",
- *          "post"
+ *          "post":{
+ *          }
  *      }
  * )
  * 
@@ -41,6 +50,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"read"})
      */
     private $email;
 
@@ -58,8 +68,10 @@ class User implements UserInterface
     /**
      * *@var string The hashed password
      * @Groups({"put","post"})
+     * 
      * @Assert\Expression(
      *  "this.getPassword() === this.getRetypedPassword()", 
+     *  groups = {"post"} ,
      *  message="not matching"
      * )
      */
@@ -105,6 +117,26 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Offer::class, mappedBy="user")
      */
     private $offers;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $billingAddress;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $companyName;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $jobName;
 
     public function __construct()
     {
@@ -326,6 +358,54 @@ class User implements UserInterface
                 $offer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getBillingAddress(): ?string
+    {
+        return $this->billingAddress;
+    }
+
+    public function setBillingAddress(string $billingAddress): self
+    {
+        $this->billingAddress = $billingAddress;
+
+        return $this;
+    }
+
+    public function getCompanyName(): ?string
+    {
+        return $this->companyName;
+    }
+
+    public function setCompanyName(string $companyName): self
+    {
+        $this->companyName = $companyName;
+
+        return $this;
+    }
+
+    public function getJobName(): ?string
+    {
+        return $this->jobName;
+    }
+
+    public function setJobName(?string $jobName): self
+    {
+        $this->jobName = $jobName;
 
         return $this;
     }

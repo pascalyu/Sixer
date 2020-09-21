@@ -35,7 +35,7 @@ class SetUserSubscriber implements EventSubscriberInterface
         if (!$entity instanceof OwnUserInterface  || !in_array($method, [Request::METHOD_POST])) {
             return;
         }
-
+        
         $entity->setUser($this->tokenStorage->getToken()->getUser());
     }
 
